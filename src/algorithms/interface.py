@@ -47,10 +47,11 @@ class Interface:
 
     def exc(self):
 
-        data = self.__schedule()
-        data = data.copy().merge(self.__publication_type(), how='left', on='publication_type')
-        data = data.copy().merge(self.__theme(), how='left', on='theme_name')
+        initial = self.__schedule()
+        data = initial.copy().merge(self.__publication_type(), how='inner', on='publication_type')
+        data = data.copy().merge(self.__theme(), how='inner', on='theme_name')
 
-        self.__logger.info(data)
-        self.__logger.info(data[['publication_id',  'publication_type']].drop_duplicates())
-        self.__logger.info(data[['theme_id', 'theme_name']].drop_duplicates())
+        assert initial.shape[0] == data.shape[0], 'Missing records due to unknown dimensions?'
+
+        self.__logger.info('%s', initial.info())
+        self.__logger.info('%s', data.info())
