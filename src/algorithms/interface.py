@@ -40,3 +40,8 @@ class Interface:
 
         data = self.__read()
         self.__logger.info(data)
+
+        self.__logger.info(data[['publication_type']].drop_duplicates())
+
+        self.__logger.info(data[['theme']].drop_duplicates())
+
