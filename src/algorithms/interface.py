@@ -41,4 +41,7 @@ class Interface:
         directories.create(path=self.__storage)
 
     def exc(self):
-        pass
+
+        self.__streams.read(uri=os.path.join(self.__source, 'publication_type.csv'))
+        self.__streams.read(uri=os.path.join(self.__source, 'theme.csv'))
+        self.__streams.read(uri=os.path.join(self.__source, 'restructured', 'schedule.csv'))
