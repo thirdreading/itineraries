@@ -59,5 +59,5 @@ class Groups:
         self.__logger.info(frame)
 
         message = src.functions.objects.Objects().write(
-            nodes=frame.to_dict(orient='tight'), path=os.path.join(self.__storage, 'groups.json'))
+            nodes=inner.to_dict(orient='tight'), path=os.path.join(self.__storage, 'groups.json'))
         self.__logger.info(message)
