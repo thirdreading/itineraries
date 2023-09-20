@@ -39,7 +39,7 @@ class Groups:
 
         data = blob.copy()[['theme_id', 'publication_id']].drop_duplicates()
         data = data.merge(self.__theme, how='inner', on='theme_id')
-        data = data.merge(self.__publication_type, how='inner', on='publication_type')
+        data = data.merge(self.__publication_type, how='inner', on='publication_id')
         data.rename(columns=rename, inplace=True)
 
         return data
