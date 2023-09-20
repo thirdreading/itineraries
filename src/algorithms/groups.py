@@ -1,3 +1,4 @@
+import logging
 import pandas as pd
 
 
@@ -7,6 +8,12 @@ class Groups:
 
         self.__publication_type = publication_type
         self.__theme = theme
+
+        # logging
+        logging.basicConfig(level=logging.INFO,
+                            format='\n\n%(message)s\n%(asctime)s.%(msecs)03d',
+                            datefmt='%Y-%m-%d %H:%M:%S')
+        self.__logger = logging.getLogger(__name__)
 
     def __inner(self) -> pd.DataFrame:
 
@@ -18,7 +25,7 @@ class Groups:
 
         return data
 
-    def __outer(self, blob: pd.DataFrame):
+    def __outer(self, blob: pd.DataFrame) -> pd.DataFrame:
 
         rename = {'theme_id': 'id', 'theme_name': 'child_desc',
                   'publication_id': 'parent', 'publication_type': 'parent_desc'}
@@ -31,4 +38,9 @@ class Groups:
         return data
 
     def exc(self, data: pd.DataFrame):
-        pass
+
+        inner = self.__inner()
+        self.__logger.info(inner)
+
+        outer = self.__outer(blob=data)
+        self.__logger.info(outer)
