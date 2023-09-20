@@ -1,5 +1,8 @@
 import logging
+import os
 import pandas as pd
+
+import src.functions.objects
 
 
 class Groups:
@@ -51,3 +54,10 @@ class Groups:
 
         outer = self.__outer(blob=data)
         self.__logger.info(outer)
+
+        frame = pd.concat([inner, outer], axis=0, ignore_index=True)
+        self.__logger.info(frame)
+
+        message = src.functions.objects.Objects().write(
+            nodes=frame.to_dict(orient='tight'), path=os.path.join(self.__storage, 'groups.json'))
+        self.__logger.info(message)
