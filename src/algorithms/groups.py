@@ -27,7 +27,7 @@ class Groups:
         data = self.__publication_type.copy()
         data.rename(columns={'publication_id': 'id', 'publication_type': 'child_desc'}, inplace=True)
 
-        data.loc[:, 'parent'] = 'publications'
+        data.loc[:, 'parent'] = 9999
         data.loc[:, 'parent_desc'] = 'Publications'
 
         return data
