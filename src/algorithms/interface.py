@@ -6,6 +6,7 @@ import os
 
 import src.functions.directories
 import src.functions.streams
+import src.algorithms.groups
 
 
 class Interface:
@@ -18,17 +19,16 @@ class Interface:
         Constructor
         """
 
+        # directories
         self.__source = os.path.join(os.getcwd(), 'data')
         self.__storage = os.path.join(os.getcwd(), 'warehouse', 'data')
         self.__set_up()
 
+        # data
         self.__streams = src.functions.streams.Streams()
-
-        # logging
-        logging.basicConfig(level=logging.INFO,
-                            format='\n\n%(message)s\n%(asctime)s.%(msecs)03d',
-                            datefmt='%Y-%m-%d %H:%M:%S')
-        self.__logger = logging.getLogger(__name__)
+        self.__publication_type = self.__streams.read(uri=os.path.join(self.__source, 'publication_type.csv'))
+        self.__theme = self.__streams.read(uri=os.path.join(self.__source, 'theme.csv'))
+        self.__schedule = self.__streams.read(uri=os.path.join(self.__source, 'restructured', 'schedule.csv'))
 
     def __set_up(self):
         """
@@ -40,8 +40,14 @@ class Interface:
         directories.cleanup(path=self.__storage)
         directories.create(path=self.__storage)
 
+    def __groups(self):
+
+        src.algorithms.groups.Groups(
+            publication_type=self.__publication_type, theme=self.__theme, storage=self.__storage).exc(
+            data=self.__schedule)
+
     def exc(self):
 
-        self.__streams.read(uri=os.path.join(self.__source, 'publication_type.csv'))
-        self.__streams.read(uri=os.path.join(self.__source, 'theme.csv'))
-        self.__streams.read(uri=os.path.join(self.__source, 'restructured', 'schedule.csv'))
+        self.__groups()
+
+
