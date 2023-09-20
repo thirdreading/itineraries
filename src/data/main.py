@@ -7,6 +7,9 @@ def main():
 
     logger.info(__name__)
 
+    # Prepare the original data for use
+    src.data.restructure.Restructure().exc()
+
 
 if __name__ == '__main__':
     root = os.getcwd()
@@ -21,5 +24,8 @@ if __name__ == '__main__':
                         format='\n\n%(message)s\n%(asctime)s.%(msecs)03d',
                         datefmt='%Y-%m-%d %H:%M:%S')
     logger = logging.getLogger(__name__)
+
+    # classes
+    import src.data.restructure
 
     main()
