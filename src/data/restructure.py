@@ -28,34 +28,66 @@ class Restructure:
         self.__logger = logging.getLogger(__name__)
 
     def __set_up(self):
+        """
+
+        :return: None
+        """
 
         directories = src.functions.directories.Directories()
         directories.cleanup(path=self.__storage)
         directories.create(path=self.__storage)
 
     def __publication_type(self) -> pd.DataFrame:
+        """
+
+        :return: The publication type reference dataframe
+        """
 
         return self.__streams.read(uri=os.path.join(self.__source, 'publication_type.csv'))
 
     def __theme(self) -> pd.DataFrame:
+        """
+
+        :return: The theme reference dataframe
+        """
 
         return self.__streams.read(uri=os.path.join(self.__source, 'theme.csv'))
 
     def __schedule(self) -> pd.DataFrame:
+        """
 
-        data = src.functions.streams.Streams().read(uri=os.path.join(self.__source, 'original', 'schedule.csv'), header=0)
+        :return: The schedule data, after renaming fields.
+        """
+
+        data = self.__streams.read(uri=os.path.join(self.__source, 'original', 'schedule.csv'), header=0)
         data.rename(mapper=str.lower, axis=1, inplace=True)
         data.columns = data.columns.str.replace(' ', '_')
 
         return data
 
-    def exc(self):
+    def __get_restructured_data(self) -> pd.DataFrame:
+        """
 
-        initial = self.__schedule()
-        data = initial.copy().merge(self.__publication_type(), how='inner', on='publication_type')
+        :return: A dataframe that includes the schedule alongside the code fields of publication & theme
+        """
+
+        original = self.__schedule()
+        data = original.copy().merge(self.__publication_type(), how='inner', on='publication_type')
         data = data.copy().merge(self.__theme(), how='inner', on='theme_name')
 
-        assert initial.shape[0] == data.shape[0], 'Missing records due to unknown dimensions?'
+        assert original.shape[0] == data.shape[0], 'Missing records due to unknown dimensions?'
 
-        self.__logger.info('%s', initial.info())
+        return data
+
+    def exc(self):
+        """
+
+        :return:
+        """
+
+        # Get the restructured data, subsequently save the relevant fields
+        data = self.__get_restructured_data()
+        data.drop(columns=['publication_type', 'theme_name'], inplace=True)
+        self.__streams.write(blob=data, path=os.path.join(self.__storage, 'schedule.csv'))
+
         self.__logger.info('%s', data.info())
