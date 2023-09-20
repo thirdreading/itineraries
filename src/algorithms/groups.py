@@ -4,10 +4,17 @@ import pandas as pd
 
 class Groups:
 
-    def __init__(self, publication_type: pd.DataFrame, theme: pd.DataFrame):
+    def __init__(self, publication_type: pd.DataFrame, theme: pd.DataFrame, storage: str):
+        """
+
+        :param publication_type: The publication type reference dataframe
+        :param theme: The theme reference dataframe
+        :param storage:
+        """
 
         self.__publication_type = publication_type
         self.__theme = theme
+        self.__storage = storage
 
         # logging
         logging.basicConfig(level=logging.INFO,
