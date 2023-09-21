@@ -7,6 +7,7 @@ import os
 import src.functions.directories
 import src.functions.streams
 import src.algorithms.groups
+import src.algorithms.disaggregates
 
 
 class Interface:
@@ -47,8 +48,12 @@ class Interface:
             data=self.__schedule)
 
     def __disaggregates(self):
-        pass
+
+        src.algorithms.disaggregates.Disaggregates(
+            publication_type=self.__publication_type, theme=self.__theme, storage=self.__storage).exc(
+            data=self.__schedule)
 
     def exc(self):
 
         self.__groups()
+        self.__disaggregates()
