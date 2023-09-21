@@ -86,11 +86,24 @@ class Restructure:
     def __publication_state(self, blob: pd.DataFrame) -> pd.DataFrame:
 
         data = blob.copy()
-        day = data['publication_date'].str.slice(start=(self.__datestr_length - 2),
-                                                 stop=self.__datestr_length)
+        day = data['publication_date'].str.slice(start=(self.__datestr_length - 2), stop=self.__datestr_length)
         data.loc[:, 'publication_day_released'] = np.where(day == '00', False, True)
 
         return data
+
+    def __publication_times(self, blob: pd.DataFrame) -> pd.DataFrame:
+
+        data = blob.copy()
+
+        # date string: dates without a day, i.e., dd === 00, are identifiable via publication_day_released === False
+        data.loc[:, 'datestr'] = data['publication_date'].str.replace('-00', '-01', regex=False)
+
+        # epoch (milliseconds)
+        nanoseconds = pd.to_datetime(data['date'], format='%Y-%m-%d').astype(np.int64)
+        data.loc[:, 'epoch'] = (nanoseconds / (10 ** 6)).astype(np.longlong)
+
+        return data
+
 
     def exc(self):
         """
