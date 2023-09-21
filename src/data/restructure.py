@@ -101,6 +101,8 @@ class Restructure:
         # Get the restructured data, subsequently save the relevant fields
         data = self.__get_restructured_data()
         data.drop(columns=['publication_type', 'theme_name'], inplace=True)
+        data = self.__publication_state(blob=data)
+
         self.__streams.write(blob=data, path=os.path.join(self.__storage, 'schedule.csv'))
 
         self.__logger.info('%s', data.info())
