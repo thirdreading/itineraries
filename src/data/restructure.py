@@ -106,7 +106,7 @@ class Restructure:
         data.loc[:, 'datestr'] = data['publication_date'].str.replace('-00', '-01', regex=False)
 
         # epoch (milliseconds)
-        nanoseconds = pd.to_datetime(data['date'], format='%Y-%m-%d').astype(np.int64)
+        nanoseconds = pd.to_datetime(data['datestr'], format='%Y-%m-%d').astype(np.int64)
         data.loc[:, 'epoch'] = (nanoseconds / (10 ** 6)).astype(np.longlong)
 
         return data
