@@ -2,10 +2,9 @@
 disaggregates.py
 """
 import logging
-import pandas as pd
-import numpy as np
-import datetime
+
 import dask
+import pandas as pd
 
 
 class Disaggregates:
@@ -31,23 +30,9 @@ class Disaggregates:
                             datefmt='%Y-%m-%d %H:%M:%S')
         self.__logger = logging.getLogger(__name__)
 
-    def __epoch(self, blob: pd.DataFrame):
-
-        data = blob.copy()
-
-        length = len('YYYY-mm-dd')
-        left = data['publication_date'].str.slice(start=(length - 2), stop=length)
-        self.__logger.info(left)
-
-        data.loc[:, 'publication_day_released'] = np.where(left == '00', False, True)
-        self.__logger.info(data.head(13))
-
-        data.loc[:, 'date'] = data['publication_date'].str.replace('-00', '-01', regex=False)
-        self.__logger.info(data.head(13))
-
-        nanoseconds = pd.to_datetime(data['date'], format='%Y-%m-%d').astype(np.int64)
-        data.loc[:, 'epoch'] = (nanoseconds / (10 ** 6)).astype(np.longlong)
-        self.__logger.info(data.head(13))
+    @dask.delayed
+    def __by_publication(self, blob: pd.DataFrame):
+        pass
 
     def exc(self, data: pd.DataFrame):
         """
@@ -59,4 +44,6 @@ class Disaggregates:
         self.__logger.info('%s', data.info())
         self.__logger.info(data.head())
 
-        self.__epoch(blob=data)
+        codes = data['publication_id'].unique()
+
+        computation = []
