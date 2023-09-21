@@ -3,6 +3,7 @@ disaggregates.py
 """
 import logging
 import pandas as pd
+import numpy as np
 
 import dask
 
@@ -35,6 +36,8 @@ class Disaggregates:
         length = len('YYYY-mm-dd')
         left = blob.copy()['publication_date'].str.slice(start=(length - 2), stop=length)
         self.__logger.info(left)
+
+        np.where(left == '00', False, True)
 
     def exc(self, data: pd.DataFrame):
         """
