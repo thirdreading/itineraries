@@ -46,8 +46,9 @@ class Interface:
             publication_type=self.__publication_type, theme=self.__theme, storage=self.__storage).exc(
             data=self.__schedule)
 
+    def __disaggregates(self):
+        pass
+
     def exc(self):
 
         self.__groups()
-
-
