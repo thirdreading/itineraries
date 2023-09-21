@@ -39,7 +39,10 @@ class Disaggregates:
         left = data['publication_date'].str.slice(start=(length - 2), stop=length)
         self.__logger.info(left)
 
-        data.loc[:, 'publication_day_pending'] = np.where(left == '00', True, False)
+        data.loc[:, 'publication_day_released'] = np.where(left == '00', False, True)
+        self.__logger.info(data.head(13))
+
+        data.loc[:, 'date'] = data['publication_date'].str.replace('-00', '-01', regex=False)
         self.__logger.info(data.head(13))
 
     def exc(self, data: pd.DataFrame):
