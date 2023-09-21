@@ -33,11 +33,14 @@ class Disaggregates:
 
     def __epoch(self, blob: pd.DataFrame):
 
+        data = blob.copy()
+
         length = len('YYYY-mm-dd')
-        left = blob.copy()['publication_date'].str.slice(start=(length - 2), stop=length)
+        left = data['publication_date'].str.slice(start=(length - 2), stop=length)
         self.__logger.info(left)
 
-        np.where(left == '00', False, True)
+        data.loc[:, 'publication_day_pending'] = np.where(left == '00', True, False)
+        self.__logger.info(data.head(13))
 
     def exc(self, data: pd.DataFrame):
         """
