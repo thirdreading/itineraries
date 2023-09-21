@@ -1,5 +1,8 @@
-import os
+"""
+restructure.py
+"""
 import logging
+import os
 
 import numpy as np
 import pandas as pd
@@ -9,6 +12,9 @@ import src.functions.streams
 
 
 class Restructure:
+    """
+    Restructure
+    """
 
     def __init__(self):
         """
@@ -17,29 +23,18 @@ class Restructure:
 
         self.__source = os.path.join(os.getcwd(), 'data')
         self.__storage = os.path.join(os.getcwd(), 'data', 'restructured')
-        self.__set_up()
+        directories = src.functions.directories.Directories()
+        directories.cleanup(path=self.__storage)
+        directories.create(path=self.__storage)
 
         # An instance for reading & writing data; <csv>.
         self.__streams = src.functions.streams.Streams()
-
-        # datestr
-        self.__datestr_length = len('YYYY-mm-dd')
 
         # logging
         logging.basicConfig(level=logging.INFO,
                             format='\n\n%(message)s\n%(asctime)s.%(msecs)03d',
                             datefmt='%Y-%m-%d %H:%M:%S')
         self.__logger = logging.getLogger(__name__)
-
-    def __set_up(self):
-        """
-
-        :return: None
-        """
-
-        directories = src.functions.directories.Directories()
-        directories.cleanup(path=self.__storage)
-        directories.create(path=self.__storage)
 
     def __publication_type(self) -> pd.DataFrame:
         """
@@ -78,21 +73,32 @@ class Restructure:
         original = self.__schedule()
         data = original.copy().merge(self.__publication_type(), how='inner', on='publication_type')
         data = data.copy().merge(self.__theme(), how='inner', on='theme_name')
-
         assert original.shape[0] == data.shape[0], 'Missing records due to unknown dimensions?'
 
         return data
 
-    def __publication_state(self, blob: pd.DataFrame) -> pd.DataFrame:
+    @staticmethod
+    def __publication_state(blob: pd.DataFrame) -> pd.DataFrame:
+        """
+
+        :param blob:
+        :return:
+        """
 
         data = blob.copy()
-        day = data['publication_date'].str.slice(start=(self.__datestr_length - 2), stop=self.__datestr_length)
+        length = len('YYYY-mm-dd')
+        day = data['publication_date'].str.slice(start=(length - 2), stop=length)
         data.loc[:, 'publication_day_released'] = np.where(day == '00', False, True)
 
         return data
 
     @staticmethod
     def __publication_times(blob: pd.DataFrame) -> pd.DataFrame:
+        """
+
+        :param blob:
+        :return:
+        """
 
         data = blob.copy()
 
