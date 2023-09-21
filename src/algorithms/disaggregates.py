@@ -12,14 +12,16 @@ class Disaggregates:
     Disaggregates
     """
 
-    def __init__(self, publication_type: pd.DataFrame, theme: pd.DataFrame, storage: str):
+    def __init__(self, data: pd.DataFrame, publication_type: pd.DataFrame, theme: pd.DataFrame, storage: str):
         """
 
+        :param data:
         :param publication_type: The publication type reference dataframe
         :param theme: The theme reference dataframe
         :param storage:
         """
 
+        self.__data = data
         self.__publication_type = publication_type
         self.__theme = theme
         self.__storage = storage
@@ -31,19 +33,24 @@ class Disaggregates:
         self.__logger = logging.getLogger(__name__)
 
     @dask.delayed
-    def __by_publication(self, blob: pd.DataFrame):
-        pass
-
-    def exc(self, data: pd.DataFrame):
+    def __by_publication(self, code: str):
         """
 
-        :param data:
+        :param code:
         :return:
         """
 
-        self.__logger.info('%s', data.info())
-        self.__logger.info(data.head())
+        frame = self.__data.copy().loc[self.__data['publication_id'] == code, :]
 
-        codes = data['publication_id'].unique()
+    def exc(self):
+        """
+
+        :return:
+        """
+
+        self.__logger.info('%s', self.__data.info())
+        codes = self.__data['publication_id'].unique()
 
         computation = []
+        for code in codes:
+            pass
