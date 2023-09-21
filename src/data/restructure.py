@@ -91,7 +91,8 @@ class Restructure:
 
         return data
 
-    def __publication_times(self, blob: pd.DataFrame) -> pd.DataFrame:
+    @staticmethod
+    def __publication_times(blob: pd.DataFrame) -> pd.DataFrame:
 
         data = blob.copy()
 
@@ -104,18 +105,21 @@ class Restructure:
 
         return data
 
-
     def exc(self):
         """
 
         :return:
         """
 
-        # Get the restructured data, subsequently save the relevant fields
+        # Get the restructured data
         data = self.__get_restructured_data()
         data.drop(columns=['publication_type', 'theme_name'], inplace=True)
-        data = self.__publication_state(blob=data)
 
+        # Address date & time anomalies
+        data = self.__publication_state(blob=data)
+        data = self.__publication_times(blob=data)
+
+        # Persist
         self.__streams.write(blob=data, path=os.path.join(self.__storage, 'schedule.csv'))
 
         self.__logger.info('%s', data.info())
