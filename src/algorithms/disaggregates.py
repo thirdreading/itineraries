@@ -30,6 +30,12 @@ class Disaggregates:
                             datefmt='%Y-%m-%d %H:%M:%S')
         self.__logger = logging.getLogger(__name__)
 
+    def __epoch(self, blob: pd.DataFrame):
+
+        length = len('YYYY-mm-dd')
+        left = blob.copy()['publication_date'].str.slice(start=(length - 2), stop=length)
+        self.__logger.info(left)
+
     def exc(self, data: pd.DataFrame):
         """
 
@@ -38,3 +44,6 @@ class Disaggregates:
         """
 
         self.__logger.info('%s', data.info())
+        self.__logger.info(data.head())
+
+        self.__epoch(blob=data)
