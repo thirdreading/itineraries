@@ -4,7 +4,7 @@ disaggregates.py
 import logging
 import pandas as pd
 import numpy as np
-
+import datetime
 import dask
 
 
@@ -43,6 +43,10 @@ class Disaggregates:
         self.__logger.info(data.head(13))
 
         data.loc[:, 'date'] = data['publication_date'].str.replace('-00', '-01', regex=False)
+        self.__logger.info(data.head(13))
+
+        nanoseconds = pd.to_datetime(data['date'], format='%Y-%m-%d').astype(np.int64)
+        data.loc[:, 'epoch'] = (nanoseconds / (10 ** 6)).astype(np.longlong)
         self.__logger.info(data.head(13))
 
     def exc(self, data: pd.DataFrame):
