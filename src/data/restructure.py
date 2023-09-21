@@ -1,6 +1,7 @@
 import os
 import logging
 
+import numpy as np
 import pandas as pd
 
 import src.functions.directories
@@ -20,6 +21,9 @@ class Restructure:
 
         # An instance for reading & writing data; <csv>.
         self.__streams = src.functions.streams.Streams()
+
+        # datestr
+        self.__datestr_length = len('YYYY-mm-dd')
 
         # logging
         logging.basicConfig(level=logging.INFO,
@@ -76,6 +80,15 @@ class Restructure:
         data = data.copy().merge(self.__theme(), how='inner', on='theme_name')
 
         assert original.shape[0] == data.shape[0], 'Missing records due to unknown dimensions?'
+
+        return data
+
+    def __publication_state(self, blob: pd.DataFrame) -> pd.DataFrame:
+
+        data = blob.copy()
+        day = data['publication_date'].str.slice(start=(self.__datestr_length - 2),
+                                                 stop=self.__datestr_length)
+        data.loc[:, 'publication_day_released'] = np.where(day == '00', False, True)
 
         return data
 
