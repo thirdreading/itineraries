@@ -68,7 +68,7 @@ class Interface:
         """
 
         src.algorithms.themes.Themes(data=self.__schedule, publication_type=self.__publication_type,
-                                     theme=self.__theme, storage=self.__storage)
+                                     theme=self.__theme, storage=self.__storage).exc()
 
     def exc(self):
         """
