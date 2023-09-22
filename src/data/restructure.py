@@ -127,5 +127,4 @@ class Restructure:
 
         # Persist
         self.__streams.write(blob=data, path=os.path.join(self.__storage, 'schedule.csv'))
-
         self.__logger.info('%s', data.info())
