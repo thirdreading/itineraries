@@ -61,4 +61,10 @@ class Themes:
                 'data': blob.to_dict(orient='tight')}
 
     def exc(self):
-        pass
+        """
+
+        :return:
+        """
+
+        codes = self.__theme.merge(
+            self.__instances[['theme_id']].drop_duplicates(), how='inner', on='theme_id')
