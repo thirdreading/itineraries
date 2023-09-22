@@ -55,6 +55,13 @@ class Themes:
 
     @dask.delayed
     def __node(self, blob: pd.DataFrame, theme_id: str, theme_name: str) -> dict:
+        """
+
+        :param blob:
+        :param theme_id:
+        :param theme_name:
+        :return:
+        """
 
         return {'name': theme_id,
                 'desc': theme_name,
@@ -71,7 +78,6 @@ class Themes:
 
         computations = []
         for theme_id, theme_name in zip(codes['theme_id'], codes['theme_name']):
-
             excerpt = self.__excerpt(theme_id=theme_id)
             node = self.__node(blob=excerpt, theme_id=theme_id, theme_name=theme_name)
             computations.append(node)
