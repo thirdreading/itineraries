@@ -36,21 +36,22 @@ class Disaggregates:
         self.__logger = logging.getLogger(__name__)
 
     @dask.delayed
-    def __by_publication(self, code: str) -> pd.DataFrame:
+    def __by_publication(self, publication_id: str) -> pd.DataFrame:
         """
 
-        :param code:
+        :param publication_id:
         :return:
         """
 
-        frame: pd.DataFrame = self.__instances.copy().loc[self.__instances['publication_id'] == code, self.__fields.keys()]
+        frame: pd.DataFrame = self.__instances.copy().loc[
+            self.__instances['publication_id'] == publication_id, self.__fields.keys()]
         frame.rename(columns=self.__fields, inplace=True)
         
         return frame
         
     def __node(self, blob: pd.DataFrame, code: str):
         pass
-        
+
     def exc(self):
         """
 
@@ -58,8 +59,11 @@ class Disaggregates:
         """
 
         self.__logger.info('%s', self.__instances.info())
-        codes = self.__instances['publication_id'].unique()
+
+        codes = self.__publication_type.merge(
+            self.__instances[['publication_id']], how='inner', on='publication_id')
 
         computation = []
-        for code in codes:
-            pass
+        for publication_id, publication_type in zip(codes['publication_id'], codes['publication_type']):
+
+            self.__logger.info(publication_type)
