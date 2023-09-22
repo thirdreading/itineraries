@@ -2,9 +2,12 @@
 disaggregates.py
 """
 import logging
+import os
 
 import dask
 import pandas as pd
+
+import src.functions.objects
 
 
 class Disaggregates:
@@ -76,5 +79,6 @@ class Disaggregates:
 
         dask.visualize(computations, filename='publications', format='pdf')
         items = dask.compute(computations, scheduler='threads')[0]
+        src.functions.objects.Objects().write(nodes=items, path=os.path.join(self.__storage, 'disaggregates.json'))
 
         self.__logger.info(items)
