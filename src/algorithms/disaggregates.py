@@ -48,9 +48,11 @@ class Disaggregates:
         frame.rename(columns=self.__fields, inplace=True)
         
         return frame
-        
-    def __node(self, blob: pd.DataFrame, code: str):
-        pass
+
+    @dask.delayed
+    def __node(self, blob: pd.DataFrame, publication_id: str, publication_type: str) -> dict:
+
+        return {'name': publication_id, 'desc': publication_type, 'data': blob.to_dict(orient='tight')}
 
     def exc(self):
         """
