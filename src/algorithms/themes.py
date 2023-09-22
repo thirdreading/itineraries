@@ -39,5 +39,19 @@ class Themes:
                             datefmt='%Y-%m-%d %H:%M:%S')
         self.__logger = logging.getLogger(__name__)
 
+    @dask.delayed
+    def __excerpt(self, theme_id: str) -> pd.DataFrame:
+        """
+
+        :param theme_id:
+        :return:
+        """
+
+        frame: pd.DataFrame = self.__instances.copy().loc[
+            self.__instances['theme_id'] == theme_id, self.__fields.keys()]
+        frame.rename(columns=self.__fields, inplace=True)
+
+        return frame
+
     def exc(self):
         pass
