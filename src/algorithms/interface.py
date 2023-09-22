@@ -49,9 +49,8 @@ class Interface:
 
     def __disaggregates(self):
 
-        src.algorithms.disaggregates.Disaggregates(
-            publication_type=self.__publication_type, theme=self.__theme, storage=self.__storage).exc(
-            data=self.__schedule)
+        src.algorithms.disaggregates.Disaggregates(data=self.__schedule, publication_type=self.__publication_type,
+                                                   theme=self.__theme, storage=self.__storage).exc()
 
     def exc(self):
 
