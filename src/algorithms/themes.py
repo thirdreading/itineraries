@@ -68,3 +68,17 @@ class Themes:
 
         codes = self.__theme.merge(
             self.__instances[['theme_id']].drop_duplicates(), how='inner', on='theme_id')
+
+        computations = []
+        for theme_id, theme_name in zip(codes['theme_id'], codes['theme_name']):
+
+            excerpt = self.__excerpt(theme_id=theme_id)
+            node = self.__node(blob=excerpt, theme_id=theme_id, theme_name=theme_name)
+            computations.append(node)
+
+        dask.visualize(computations, filename='dag', format='pdf')
+        items = dask.compute(computations, scheduler='threads')[0]
+        message = src.functions.objects.Objects().write(
+            nodes=items, path=os.path.join(self.__storage, 'themes.json'))
+
+        self.__logger.info(message)
