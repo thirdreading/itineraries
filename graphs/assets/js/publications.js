@@ -1,0 +1,22 @@
+// Declarations
+var Highcharts;
+var optionSelected;
+var dropdown = $('#option_selector');
+var url = 'https://raw.githubusercontent.com/thirdreading/itineraries/develop/warehouse/data/publications.json';
+
+
+// Menu data
+$.getJSON(url, function (data) {
+
+    $.each(data, function (key, entry) {
+        dropdown.append($('<option></option>').attr('value', entry.name).text(entry.desc));
+    });
+
+    // Load the first Option by default
+    var defaultOption = dropdown.find("option:first-child").val();
+    optionSelected = dropdown.find("option:first-child").text();
+
+    // Generate
+    generateChart(defaultOption, optionSelected);
+
+});
