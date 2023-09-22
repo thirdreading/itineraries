@@ -8,6 +8,7 @@ import src.functions.directories
 import src.functions.streams
 import src.algorithms.groups
 import src.algorithms.publications
+import src.algorithms.themes
 
 
 class Interface:
@@ -42,17 +43,39 @@ class Interface:
         directories.create(path=self.__storage)
 
     def __groups(self):
+        """
+
+        :return:
+        """
 
         src.algorithms.groups.Groups(
             publication_type=self.__publication_type, theme=self.__theme, storage=self.__storage).exc(
             data=self.__schedule)
 
     def __publications(self):
+        """
+
+        :return:
+        """
 
         src.algorithms.publications.Publications(data=self.__schedule, publication_type=self.__publication_type,
                                                  theme=self.__theme, storage=self.__storage).exc()
 
+    def __themes(self):
+        """
+
+        :return:
+        """
+
+        src.algorithms.themes.Themes(data=self.__schedule, publication_type=self.__publication_type,
+                                     theme=self.__theme, storage=self.__storage)
+
     def exc(self):
+        """
+
+        :return:
+        """
 
         self.__groups()
         self.__publications()
+        self.__themes()
