@@ -53,5 +53,12 @@ class Themes:
 
         return frame
 
+    @dask.delayed
+    def __node(self, blob: pd.DataFrame, theme_id: str, theme_name: str) -> dict:
+
+        return {'name': theme_id,
+                'desc': theme_name,
+                'data': blob.to_dict(orient='tight')}
+
     def exc(self):
         pass
