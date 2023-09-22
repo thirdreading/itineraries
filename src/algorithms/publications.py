@@ -1,5 +1,5 @@
 """
-disaggregates.py
+publications.py
 """
 import logging
 import os
@@ -10,9 +10,9 @@ import pandas as pd
 import src.functions.objects
 
 
-class Disaggregates:
+class Publications:
     """
-    Disaggregates
+    Publications
     """
 
     def __init__(self, data: pd.DataFrame, publication_type: pd.DataFrame, theme: pd.DataFrame, storage: str):
