@@ -21,13 +21,13 @@ class Disaggregates:
         :param storage:
         """
 
-        self.__data = data
+        # ...
+        self.__instances = data.copy().merge(theme, how='inner', on='theme_id')
         self.__publication_type = publication_type
-        self.__theme = theme
         self.__storage = storage
-
+        
         # fields
-        self.__fields = {'epoch': 'x', 'publication_series': 'name', 'synopsis': 'description'}
+        self.__fields = {'epoch': 'x', 'publication_series': 'name', 'synopsis': 'description', 'theme': 'theme'}
 
         # logging
         logging.basicConfig(level=logging.INFO,
@@ -36,24 +36,29 @@ class Disaggregates:
         self.__logger = logging.getLogger(__name__)
 
     @dask.delayed
-    def __by_publication(self, code: str):
+    def __by_publication(self, code: str) -> pd.DataFrame:
         """
 
         :param code:
         :return:
         """
 
-        frame: pd.DataFrame = self.__data.copy().loc[self.__data['publication_id'] == code, self.__fields.keys()]
+        frame: pd.DataFrame = self.__instances.copy().loc[self.__instances['publication_id'] == code, self.__fields.keys()]
         frame.rename(columns=self.__fields, inplace=True)
-
+        
+        return frame
+        
+    def __node(self, blob: pd.DataFrame, code: str):
+        pass
+        
     def exc(self):
         """
 
         :return:
         """
 
-        self.__logger.info('%s', self.__data.info())
-        codes = self.__data['publication_id'].unique()
+        self.__logger.info('%s', self.__instances.info())
+        codes = self.__instances['publication_id'].unique()
 
         computation = []
         for code in codes:
