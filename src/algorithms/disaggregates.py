@@ -61,7 +61,7 @@ class Disaggregates:
         self.__logger.info('%s', self.__instances.info())
 
         codes = self.__publication_type.merge(
-            self.__instances[['publication_id']], how='inner', on='publication_id')
+            self.__instances[['publication_id']].drop_duplicates(), how='inner', on='publication_id')
 
         computation = []
         for publication_id, publication_type in zip(codes['publication_id'], codes['publication_type']):
