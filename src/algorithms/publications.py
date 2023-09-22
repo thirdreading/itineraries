@@ -77,7 +77,7 @@ class Publications:
             node = self.__node(blob=excerpt, publication_id=publication_id, publication_type=publication_type)
             computations.append(node)
 
-        dask.visualize(computations, filename='publications', format='pdf')
+        dask.visualize(computations, filename='dag', format='pdf')
         items = dask.compute(computations, scheduler='threads')[0]
         message = src.functions.objects.Objects().write(
             nodes=items, path=os.path.join(self.__storage, 'publications.json'))
