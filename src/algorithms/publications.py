@@ -79,6 +79,7 @@ class Publications:
 
         dask.visualize(computations, filename='publications', format='pdf')
         items = dask.compute(computations, scheduler='threads')[0]
-        src.functions.objects.Objects().write(nodes=items, path=os.path.join(self.__storage, 'disaggregates.json'))
+        message = src.functions.objects.Objects().write(
+            nodes=items, path=os.path.join(self.__storage, 'publications.json'))
 
-        self.__logger.info(items)
+        self.__logger.info(message)
