@@ -66,7 +66,7 @@ class Themes:
 
         return {'name': theme_id,
                 'desc': theme_name,
-                'data': blob.to_dict(orient='tight')}
+                'data': blob.to_dict(orient='records')}
 
     def exc(self):
         """
