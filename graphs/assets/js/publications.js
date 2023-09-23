@@ -41,6 +41,22 @@ function generateChart(fileNameKey, fileNameLabel){
 
 	$.getJSON(url, function(source){
 
+		for (var i = 0; i < source.length; i += 1){
+
+			if (source[i].name.match(fileNameKey)) {
+
+				var seriesOptions = [];
+
+        seriesOptions = {
+            name: source[i].desc,
+            data: source[i].data
+        };
+
+
+			}
+
+		}
+
 	});
 
 }
