@@ -58,7 +58,7 @@ class Publications:
 
         return {'name': publication_id,
                 'desc': publication_type,
-                'data': blob.to_dict(orient='tight')}
+                'data': blob.to_dict(orient='records')}
 
     def exc(self):
         """
