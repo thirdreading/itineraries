@@ -34,3 +34,13 @@ dropdown.on('change', function (e) {
     //Draw the Chart
     generateChart(valueSelected, optionSelected);
 });
+
+
+
+function generateChart(fileNameKey, fileNameLabel){
+
+	$.getJSON(url, function(source){
+
+	});
+
+}
