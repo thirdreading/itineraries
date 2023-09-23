@@ -40,21 +40,26 @@ dropdown.on('change', function (e) {
 
 function generateChart(fileNameKey, fileNameLabel){
 
+
 	$.getJSON(url, function(source){
+
+		// Partitions
+		var partitions = [];
+		for (var i = 0; i < source.length; i += 1){
+			partitions[i] = source[i].name;
+		}
+
+
+		// Indices
+		var pa = partitions.indexOf(parseInt(fileNameKey));
 
 
 		// Select
-		for (var i = 0; i < source.length; i += 1){
-
-			if (source[i].name === fileNameKey) {
-				var seriesOptions = [];
-		        seriesOptions = {
-		            name: source[i].desc,
-		            data: source[i].data
-		        };
-			}
-
-		}
+		var seriesOptions = [];
+        seriesOptions = {
+            name: source[pa].desc,
+            data: source[pa].data
+        };
 
 
 		// Graphing
@@ -100,12 +105,12 @@ function generateChart(fileNameKey, fileNameLabel){
 	            dataLabels: {
 	                allowOverlap: false,
 	                format: '<span style="color:{point.color}">● </span><span style="font-weight: bold;" > ' +
-	                    '{point.x:%d %b %Y}</span><br/>{point.name}'
+	                    '{point.x:%d %b %Y}</span><br/>{point.label}'
 	            },
 	            marker: {
 	                symbol: 'circle'
 	            },
-	            data: seriesOptions
+	            data: seriesOptions.data
 	        }]
 
         });
