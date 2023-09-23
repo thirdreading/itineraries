@@ -36,3 +36,91 @@ dropdown.on('change', function (e) {
 
 });
 
+
+
+
+function generateChart(fileNameKey, fileNameLabel){
+
+
+	$.getJSON(url, function(source){
+
+		// Partitions
+		var partitions = [];
+		for (var i = 0; i < source.length; i += 1){
+			partitions[i] = source[i].name;
+		}
+
+
+		// Indices
+		var pa = partitions.indexOf(parseInt(fileNameKey));
+
+
+		// Select
+		var seriesOptions = [];
+        seriesOptions = {
+            name: source[pa].desc,
+            data: source[pa].data
+        };
+
+
+		// Graphing
+		Highcharts.chart('container', {
+
+	        chart: {
+	            zoomType: 'x',
+	            type: 'timeline'
+	        },
+
+	        xAxis: {
+	            type: 'datetime',
+	            visible: false
+	        },
+
+	        yAxis: {
+	            gridLineWidth: 0.5,
+	            title: null,
+	            labels: {
+	                enabled: false
+	            }
+	        },
+
+	        legend: {
+	            enabled: false
+	        },
+
+	        title: {
+	            text: 'Themes'
+	        },
+
+	        subtitle: {
+	            text: 'Info source: <a href="https://www.gov.scot/collections/scottish-government-statistics/">Scottish Government Statistics</a>'
+	        },
+
+	        tooltip: {
+	            style: {
+	                width: 125
+	            }
+	        },
+
+	        series: [{
+	            dataLabels: {
+	                allowOverlap: false,
+	                format: '<span style="color:{point.color}">● </span><span style="font-weight: bold;" > ' +
+	                    '{point.x:%d %b %Y}</span><br/>{point.label}'
+	            },
+	            marker: {
+	                symbol: 'circle'
+	            },
+	            data: seriesOptions.data
+	        }]
+
+        });
+
+	});
+
+}
+
+
+
+
+
