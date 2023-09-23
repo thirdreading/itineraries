@@ -1,10 +1,6 @@
 
 <br>
 
-**Itinerary Graphs**
-
-<br>
-
 ### References
 
 * [pandas](https://pandas.pydata.org/docs/reference/index.html)
