@@ -50,6 +50,7 @@ class Publications:
         frame: pd.DataFrame = self.__instances.copy().loc[
             self.__instances['publication_id'] == publication_id, self.__fields.keys()]
         frame.rename(columns=self.__fields, inplace=True)
+        frame.loc[:, 'label'] = frame['name'].array
         
         return frame
 
