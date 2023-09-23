@@ -6,9 +6,9 @@ var url = 'https://raw.githubusercontent.com/thirdreading/itineraries/develop/wa
 
 
 // Menu data
-$.getJSON(url, function (data) {
+$.getJSON(url, function (source) {
 
-    $.each(data, function (key, entry) {
+    $.each(source, function (key, entry) {
         dropdown.append($('<option></option>').attr('value', entry.name).text(entry.desc));
     });
 
