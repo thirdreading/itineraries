@@ -1,0 +1,88 @@
+{
+    "index": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+    ],
+    "columns": [
+        "id",
+        "child_desc",
+        "parent",
+        "parent_desc"
+    ],
+    "data": [
+        [
+            3000,
+            "National Statistics",
+            9999,
+            "Publications"
+        ],
+        [
+            3001,
+            "Management Information",
+            9999,
+            "Publications"
+        ],
+        [
+            3002,
+            "Experimental Statistics",
+            9999,
+            "Publications"
+        ],
+        [
+            3003,
+            "Data Under Development",
+            9999,
+            "Publications"
+        ],
+        [
+            3004,
+            "Non-official Statistics",
+            9999,
+            "Publications"
+        ],
+        [
+            3005,
+            "Official Statistics",
+            9999,
+            "Publications"
+        ],
+        [
+            3006,
+            "Other",
+            9999,
+            "Publications"
+        ],
+        [
+            3007,
+            "Other: A mix of National Statistics and Official Statistics.",
+            9999,
+            "Publications"
+        ],
+        [
+            3008,
+            "Other: Collation of various types of statistics",
+            9999,
+            "Publications"
+        ],
+        [
+            3009,
+            "Other: Non Official Statistics",
+            9999,
+            "Publications"
+        ]
+    ],
+    "index_names": [
+        null
+    ],
+    "column_names": [
+        null
+    ]
+}
